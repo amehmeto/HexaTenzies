@@ -1,13 +1,10 @@
 import './App.css'
-import { Die } from './components/Die'
+import { Dice } from './view/dice/Dice'
 
 function App() {
-  const dice = [1, 2, 3, 4, 5, 6, 1, 2, 3, 4]
-  const diceElements = dice.map((die) => <Die value={die} />)
-
   return (
     <main>
-      <div className="dice-container">{diceElements}</div>
+      <Dice />
     </main>
   )
 }
