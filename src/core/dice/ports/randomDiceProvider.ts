@@ -1,3 +1,3 @@
 export interface RandomDiceProvider {
-  generateRandomDie(): number
+  generateRandomDieValue(): number
 }

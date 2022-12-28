@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { generateRandomDiceUseCase } from '../../../di-container'
+import { generateRandomDiceUseCase } from '../../di-container'
 
 export const diceSlice = createSlice({
   name: 'dice',

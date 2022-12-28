@@ -1,11 +1,15 @@
 import { combineReducers, configureStore, createSlice } from '@reduxjs/toolkit'
-import { diceSlice } from '../core/slices/dice/diceSlice'
+import { diceSlice } from '../core/dice/diceSlice'
 
 const rootReducer = combineReducers({
   dice: diceSlice.reducer,
 })
 export const store = configureStore({
   reducer: rootReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }),
 })
 
 // Infer the `RootState` and `AppDispatch` types from the store itself

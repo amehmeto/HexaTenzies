@@ -1,7 +1,7 @@
-import { RandomDiceProvider } from '../../core/ports/dice/randomDiceProvider'
+import { RandomDiceProvider } from '../../core/dice/ports/randomDiceProvider'
 
 export class InMemoryRandomDiceProvider implements RandomDiceProvider {
-  generateRandomDie(): number {
+  generateRandomDieValue(): number {
     return 0
   }
 }

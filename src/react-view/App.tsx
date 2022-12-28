@@ -2,7 +2,7 @@ import './App.css'
 import './DesignSystem.css'
 import { Dice } from './dice/Dice'
 import { useDispatch } from 'react-redux'
-import { rollDice } from '../core/slices/dice/diceSlice'
+import { rollDice } from '../core/dice/diceSlice'
 
 function App() {
   const dispatch = useDispatch()
