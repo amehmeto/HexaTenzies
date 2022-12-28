@@ -4,5 +4,9 @@ import { generateRandomDiceUseCase } from '../../../di-container'
 export const diceSlice = createSlice({
   name: 'dice',
   initialState: generateRandomDiceUseCase.execute(),
-  reducers: {},
+  reducers: {
+    rollDice: () => generateRandomDiceUseCase.execute(),
+  },
 })
+
+export const { rollDice } = diceSlice.actions
