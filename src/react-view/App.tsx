@@ -3,9 +3,10 @@ import './DesignSystem.css'
 import { Dice } from './dice/Dice'
 import { useDispatch } from 'react-redux'
 import { rollDice } from '../core/dice/diceSlice'
+import { AppDispatch } from './main'
 
 function App() {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch<AppDispatch>()
 
   return (
     <main>

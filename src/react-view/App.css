@@ -20,6 +20,7 @@ main {
   max-width: 800px;
   border-radius: var(--border-radius-extra-rounder);
   padding: var(--spacing-md);
+  margin: 0 auto;
 }
 
 .roll-btn {

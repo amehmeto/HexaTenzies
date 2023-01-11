@@ -485,6 +485,11 @@ buffer-from@^1.0.0:
   resolved "https://registry.yarnpkg.com/buffer-from/-/buffer-from-1.1.2.tgz#2b146a6fd72e80b4f55d255f35ed59a3a9a41bd5"
   integrity sha512-E+XQCRwSbaaiChtv6k6Dwgc+bx+Bs6vuKJHHl5kox/BaKbhiXzqQOwK4cO22yElGp2OCmjwVhT3HmxgyPGnJfQ==
 
+cac@^6.7.14:
+  version "6.7.14"
+  resolved "https://registry.yarnpkg.com/cac/-/cac-6.7.14.tgz#804e1e6f506ee363cb0e3ccbb09cad5dd9870959"
+  integrity sha512-b6Ilus+c3RrdDk+JhLKUAQfzzgLEPy6wcXqS7f/xe1EETvsDP6GORG7SFuOs6cID5YkqchW/LXZbX5bc8j7ZcQ==
+
 caniuse-lite@^1.0.30001400:
   version "1.0.30001441"
   resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001441.tgz#987437b266260b640a23cd18fbddb509d7f69f3e"
@@ -960,14 +965,16 @@ uuid@^9.0.0:
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-9.0.0.tgz#592f550650024a38ceb0c562f2f6aa435761efb5"
   integrity sha512-MXcSTerfPa4uqyzStbRoTgt5XIe3x5+42+q1sDuy3R5MDk66URdLMOZe5aPX/SQd+kuYAh0FdP/pO28IkQyTeg==
 
-vite-node@0.26.2:
-  version "0.26.2"
-  resolved "https://registry.yarnpkg.com/vite-node/-/vite-node-0.26.2.tgz#2624236b9d68ea62c753572ee465fe4fa0657572"
-  integrity sha512-4M/zlatItZAyvrQG+82zQBhgDjRZRhVJYFW4T9wcAKh7eMmSiPOVSeI5zsV9UzHXgCcIDKX0o0r3s4OxExTHqg==
+vite-node@0.27.0:
+  version "0.27.0"
+  resolved "https://registry.yarnpkg.com/vite-node/-/vite-node-0.27.0.tgz#26ec5895565fce43b501ea53ba905bb5b62318e1"
+  integrity sha512-O1o9joT0qCGx5Om6W0VNLr7M00ttrnFlfZX2d+oxt2T9oZ9DvYSv8kDRhNJDVhAgNgUm3Tc0h/+jppNf3mVKbA==
   dependencies:
+    cac "^6.7.14"
     debug "^4.3.4"
     mlly "^1.0.0"
     pathe "^0.2.0"
+    picocolors "^1.0.0"
     source-map "^0.6.1"
     source-map-support "^0.5.21"
     vite "^3.0.0 || ^4.0.0"
@@ -984,26 +991,28 @@ vite-node@0.26.2:
   optionalDependencies:
     fsevents "~2.3.2"
 
-vitest@^0.26.2:
-  version "0.26.2"
-  resolved "https://registry.yarnpkg.com/vitest/-/vitest-0.26.2.tgz#c1647e41d5619d1d059ff65d9c00672261ccac30"
-  integrity sha512-Jvqxh6SDy9SsuslkDjts0iDewDIdq4rveEt69YgDuAb1tVDGV0lDepVaeAFraoySWqneJmOt4TngFFNhlw7GfA==
+vitest@^0.27.0:
+  version "0.27.0"
+  resolved "https://registry.yarnpkg.com/vitest/-/vitest-0.27.0.tgz#6f76e76f0f8dd5d41cb30c75623b2d43a41101fb"
+  integrity sha512-BnOa7T6CnXVC6UgcAsvFOZ2Dtvqkt+/Nl6CRgh4qVT70vElf65XwEL6zMRyTF+h2QXJziEkxYdrLo5WCxckMLQ==
   dependencies:
     "@types/chai" "^4.3.4"
     "@types/chai-subset" "^1.3.3"
     "@types/node" "*"
     acorn "^8.8.1"
     acorn-walk "^8.2.0"
+    cac "^6.7.14"
     chai "^4.3.7"
     debug "^4.3.4"
     local-pkg "^0.4.2"
+    picocolors "^1.0.0"
     source-map "^0.6.1"
     strip-literal "^1.0.0"
     tinybench "^2.3.1"
     tinypool "^0.3.0"
     tinyspy "^1.0.2"
     vite "^3.0.0 || ^4.0.0"
-    vite-node "0.26.2"
+    vite-node "0.27.0"
 
 yallist@^3.0.2:
   version "3.1.1"

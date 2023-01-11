@@ -1,13 +1,13 @@
 import { useSelector } from 'react-redux'
-import { RootState } from '../../app/store'
 import { Die } from './components/Die'
 
 import './Dice.css'
 import { Die as DieModel } from '../../core/dice/entities/Die'
+import { RootState } from '../main'
 
 export function Dice() {
   const dice: DieModel[] = useSelector<RootState, DieModel[]>(
-    (state) => state.dice,
+    (state) => state.dice.dice,
   )
 
   const diceElements = dice.map((die) => (
