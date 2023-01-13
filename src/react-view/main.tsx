@@ -4,12 +4,12 @@ import App from './App'
 import './index.css'
 import { Provider } from 'react-redux'
 import { configureStoreWith } from '../app/store'
-import { RealRandomDiceProvider } from '../infrastructure/randomDiceProvider/RealRandomDiceProvider'
+import { RealRandomNumberProvider } from '../infrastructure/randomNumberProvider/RealRandomNumberProvider'
 import { Dependencies } from '../app/dependencies'
 import { UuidIdProvider } from '../infrastructure/idProvider/UuidIdProvider'
 
 const dependencies: Dependencies = {
-  randomDiceProvider: new RealRandomDiceProvider(),
+  randomNumberProvider: new RealRandomNumberProvider(),
   idProvider: new UuidIdProvider(),
 }
 

@@ -1,6 +1,5 @@
 import { useSelector } from 'react-redux'
 import { Die } from './components/Die'
-
 import './Dice.css'
 import { Die as DieModel } from '../../core/dice/entities/Die'
 import { RootState } from '../main'
