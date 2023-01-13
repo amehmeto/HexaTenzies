@@ -1,17 +1,20 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { Dependencies } from '../../app/dependencies'
 import { Die } from './entities/Die'
+import { GenerateRandomDiceUseCase } from './usecases/GenerateRandomDiceUseCase'
 
 type ExtraDependencies = {
   extra: Dependencies
 }
 
-export const rollDice = createAsyncThunk<Die, void, ExtraDependencies>(
+export const rollDice = createAsyncThunk<Die[], void, ExtraDependencies>(
   `dice/rollDice`,
   async (thunkAPI, { extra: { randomDiceProvider, idProvider } }) => {
-    const number = randomDiceProvider.generateRandomDieValue()
-    const id = idProvider.getNew()
-    return new Die(id, { value: number, isHeld: false })
+    const dice = new GenerateRandomDiceUseCase(
+      randomDiceProvider,
+      idProvider,
+    ).execute()
+    return Promise.resolve(dice)
   },
 )
 
@@ -27,8 +30,9 @@ export const diceSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(rollDice.fulfilled, (state, action) => {
-      const payload = action.payload
-      state.dice.push(payload)
+      console.log(action.payload)
+      state.dice.concat(action.payload)
+      return state
     })
   },
 })

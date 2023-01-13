@@ -8,13 +8,13 @@ export class GenerateRandomDiceUseCase {
     private idProvider: IdProvider,
   ) {}
   execute(): Die[] {
-    const AMOUNT_OF_DIES = 10
-    return Array(AMOUNT_OF_DIES)
+    const AMOUNT_OF_DICE = 10
+    return Array(AMOUNT_OF_DICE)
       .fill(undefined)
-      .map(() => this.generateRandomDice())
+      .map(() => this.generateRandomDie())
   }
 
-  private generateRandomDice() {
+  private generateRandomDie() {
     const props = {
       value: this.randomDiceProvider.generateRandomDieValue(),
       isHeld: false,
