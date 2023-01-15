@@ -1,11 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import { Die } from '../entities/Die'
+import { Die } from '../../entities/Die'
 import { RollDiceUseCase } from './RollDiceUseCase'
-import { Dependencies } from '../../../app/dependencies'
-
-type ExtraDependencies = {
-  extra: Dependencies
-}
+import { ExtraDependencies } from '../../extraDependencies'
 
 export const rollDice = createAsyncThunk<Die[], void, ExtraDependencies>(
   `dice/rollDice`,

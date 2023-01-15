@@ -3,7 +3,7 @@ import './DesignSystem.css'
 import { Dice } from './dice/Dice'
 import { useDispatch } from 'react-redux'
 import { AppDispatch } from './main'
-import { rollDice } from '../core/dice/usecases/rollDice'
+import { rollDice } from '../core/dice/usecases/rollDice/rollDice'
 import { useEffect } from 'react'
 
 function App() {

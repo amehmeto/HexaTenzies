@@ -18,4 +18,8 @@ export class Die {
   public roll(): number {
     return ~~(this.randomNumber * this.MAX_VALUE) + this.MIN_VALUE
   }
+
+  public hold(): void {
+    this.props.isHeld = !this.props.isHeld
+  }
 }

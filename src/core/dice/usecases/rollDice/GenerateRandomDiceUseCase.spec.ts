@@ -1,9 +1,9 @@
 import { RollDiceUseCase } from './RollDiceUseCase'
-import { RandomNumberProvider } from '../ports/randomNumberProvider'
-import { InMemoryRandomNumberProvider } from '../../../infrastructure/randomNumberProvider/InMemoryRandomNumberProvider'
-import { IdProvider } from '../ports/IdProvider'
-import { InMemoryIdProvider } from '../../../infrastructure/idProvider/InMemoryIdProvider'
-import { Die } from '../entities/Die'
+import { RandomNumberProvider } from '../../ports/randomNumberProvider'
+import { InMemoryRandomNumberProvider } from '../../../../infrastructure/randomNumberProvider/InMemoryRandomNumberProvider'
+import { IdProvider } from '../../ports/IdProvider'
+import { InMemoryIdProvider } from '../../../../infrastructure/idProvider/InMemoryIdProvider'
+import { Die } from '../../entities/Die'
 
 describe('Roll Dice Use Case', () => {
   let randomDiceProvider: RandomNumberProvider =
@@ -23,7 +23,6 @@ describe('Roll Dice Use Case', () => {
   it('should generate 10 random dice', () => {
     const expectedNumberOfDices = 10
 
-    const thrownDice1 = generateRandomDiceUseCase.execute()
     const thrownDice = generateRandomDiceUseCase.execute()
 
     thrownDice.forEach((die) => expect(die).toBeInstanceOf(Die))

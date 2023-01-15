@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { Die } from './entities/Die'
-import { rollDice } from './usecases/rollDice'
+import { rollDice } from './usecases/rollDice/rollDice'
+import { holdDieReducer } from './usecases/holdDie/holdDie'
 
 export const initialState = {
   dice: [] as Die[],
@@ -11,11 +12,14 @@ export const initialState = {
 export const diceSlice = createSlice({
   name: 'dice',
   initialState,
-  reducers: {},
+  reducers: {
+    holdDie: holdDieReducer,
+  },
   extraReducers: (builder) => {
     builder.addCase(rollDice.fulfilled, (state, action) => {
-      console.log(action.payload)
       state.dice = action.payload
     })
   },
 })
+
+export const { holdDie } = diceSlice.actions

@@ -9,9 +9,7 @@ export function Dice() {
     (state) => state.dice.dice,
   )
 
-  const diceElements = dice.map((die) => (
-    <Die key={die.id} value={die.props.value} isHeld={die.props.isHeld} />
-  ))
+  const diceElements = dice.map((die) => <Die key={die.id} die={die} />)
 
   return <div className="dice-container">{diceElements}</div>
 }

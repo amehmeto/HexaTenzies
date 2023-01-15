@@ -1,10 +1,10 @@
-import { ReduxStore } from '../../../react-view/main'
-import { configureStoreWith } from '../../../app/store'
-import { InMemoryIdProvider } from '../../../infrastructure/idProvider/InMemoryIdProvider'
-import { InMemoryRandomNumberProvider } from '../../../infrastructure/randomNumberProvider/InMemoryRandomNumberProvider'
-import { Die } from '../entities/Die'
-import { IdProvider } from '../ports/IdProvider'
-import { RandomNumberProvider } from '../ports/randomNumberProvider'
+import { ReduxStore } from '../../../../react-view/main'
+import { configureStoreWith } from '../../../../app/store'
+import { InMemoryIdProvider } from '../../../../infrastructure/idProvider/InMemoryIdProvider'
+import { InMemoryRandomNumberProvider } from '../../../../infrastructure/randomNumberProvider/InMemoryRandomNumberProvider'
+import { Die } from '../../entities/Die'
+import { IdProvider } from '../../ports/IdProvider'
+import { RandomNumberProvider } from '../../ports/randomNumberProvider'
 import { rollDice } from './rollDice'
 
 function dieDataBuilder() {
