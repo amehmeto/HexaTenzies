@@ -1,11 +1,11 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import { Die } from '../../entities/Die'
-import { RollDiceUseCase } from './RollDiceUseCase'
+import { DieDTO } from '../../entities/Die'
+import { Dice } from '../../entities/Dice'
 import { ExtraDependencies } from '../../extraDependencies'
 
-export const rollDice = createAsyncThunk<Die[], void, ExtraDependencies>(
+export const rollDice = createAsyncThunk<DieDTO[], void, ExtraDependencies>(
   `dice/rollDice`,
   async (thunkAPI, { extra: { randomNumberProvider, idProvider } }) => {
-    return new RollDiceUseCase(randomNumberProvider, idProvider).execute()
+    return new Dice(randomNumberProvider, idProvider).roll()
   },
 )

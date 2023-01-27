@@ -37,6 +37,10 @@ describe('Hold Die', () => {
     const dieId = 'uuid'
 
     await store.dispatch(holdDie(dieId))
+    const dice1 = store.getState().dice.dice
+    const heldDie1 = dice1.find((die) => die.id === dieId)
+    expect(heldDie1!.props.isHeld).toBeTruthy()
+
     await store.dispatch(holdDie(dieId))
     const dice = store.getState().dice.dice
     const heldDie = dice.find((die) => die.id === dieId)

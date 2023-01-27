@@ -1,10 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { Die } from './entities/Die'
+import { DieDTO } from './entities/Die'
 import { rollDice } from './usecases/rollDice/rollDice'
 import { holdDieReducer } from './usecases/holdDie/holdDie'
 
 export const initialState = {
-  dice: [] as Die[],
+  dice: [] as DieDTO[],
   loading: false,
   error: null,
 }

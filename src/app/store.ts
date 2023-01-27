@@ -11,7 +11,6 @@ export const configureStoreWith = (dependencies: Dependencies) =>
     reducer: rootReducer,
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware({
-        serializableCheck: false,
         thunk: {
           extraArgument: dependencies,
         },
