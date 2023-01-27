@@ -22,7 +22,9 @@ export class Dice {
   }
 
   public initializeDice(): Die[] {
-    return Array(this.AMOUNT_OF_DICE).fill(this.generateDie())
+    return Array(this.AMOUNT_OF_DICE)
+      .fill(undefined) // needed to avoid generating die with the same id
+      .map(() => this.generateDie())
   }
 
   private generateDie() {
