@@ -3,6 +3,8 @@ import { DieDTO } from './entities/Die'
 import { rollDice } from './usecases/rollDice/rollDice'
 import { holdDieReducer } from './usecases/holdDie/holdDie'
 
+type Tuple10<T> = [T, T, T, T, T, T, T, T, T]
+
 export const initialState = {
   dice: [] as DieDTO[],
   loading: false,

@@ -13,7 +13,7 @@ function dieDataBuilder() {
   })
 }
 
-async function triggerRollDiceUseCase(store: any) {
+async function triggerRollDiceUseCase(store: ReduxStore) {
   await store.dispatch(rollDice())
   return store.getState().dice.dice
 }
@@ -45,7 +45,7 @@ describe('Generate Random Dice', () => {
   })
 
   it('should regenerate a new dice after every roll', async () => {
-    const expectedNumberOfDices = 10
+    const expectedNumberOfDie = 10
 
     const firstDice = await triggerRollDiceUseCase(store)
 
@@ -53,16 +53,18 @@ describe('Generate Random Dice', () => {
 
     const secondDice = await triggerRollDiceUseCase(store)
 
-    expect(firstDice.length).toBe(expectedNumberOfDices)
-    expect(secondDice.length).toBe(expectedNumberOfDices)
+    expect(firstDice.length).toBe(expectedNumberOfDie)
+    expect(secondDice.length).toBe(expectedNumberOfDie)
     expect(firstDice).not.toStrictEqual(secondDice)
   })
 
   it('should have a value between 1 and 6', async () => {
     const generatedDice = await triggerRollDiceUseCase(store)
-    const firstDieValue = generatedDice[0].props.value
 
-    expect(firstDieValue).toBeGreaterThanOrEqual(1)
-    expect(firstDieValue).toBeLessThanOrEqual(6)
+    generatedDice.forEach((die) => {
+      const dieValue = die.props.value
+      expect(dieValue).toBeGreaterThanOrEqual(1)
+      expect(dieValue).toBeLessThanOrEqual(6)
+    })
   })
 })

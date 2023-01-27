@@ -21,7 +21,7 @@ export class Dice {
     })
   }
 
-  private initializeDice(): Die[] {
+  public initializeDice(): Die[] {
     return Array(this.AMOUNT_OF_DICE).fill(this.generateDie())
   }
 
