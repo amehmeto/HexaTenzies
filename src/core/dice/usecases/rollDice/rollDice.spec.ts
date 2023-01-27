@@ -4,7 +4,6 @@ import { InMemoryIdProvider } from '../../../../infrastructure/idProvider/InMemo
 import { InMemoryRandomNumberProvider } from '../../../../infrastructure/randomNumberProvider/InMemoryRandomNumberProvider'
 import { Die } from '../../entities/Die'
 import { IdProvider } from '../../ports/IdProvider'
-import { RandomNumberProvider } from '../../ports/randomNumberProvider'
 import { rollDice } from './rollDice'
 
 function dieDataBuilder() {
@@ -14,10 +13,15 @@ function dieDataBuilder() {
   })
 }
 
+async function triggerRollDiceUseCase(store: any) {
+  await store.dispatch(rollDice())
+  return store.getState().dice.dice
+}
+
 describe('Generate Random Dice', () => {
   let store: ReduxStore
   let idProvider: IdProvider
-  let randomNumberProvider: RandomNumberProvider
+  let randomNumberProvider: InMemoryRandomNumberProvider
 
   beforeEach(() => {
     idProvider = new InMemoryIdProvider()
@@ -35,8 +39,7 @@ describe('Generate Random Dice', () => {
       .fill(dieDataBuilder())
       .map((die) => die.toDTO())
 
-    await store.dispatch(rollDice())
-    const generatedDice = store.getState().dice.dice
+    const generatedDice = await triggerRollDiceUseCase(store)
 
     expect(generatedDice).toStrictEqual(expectedDice)
   })
@@ -44,11 +47,11 @@ describe('Generate Random Dice', () => {
   it('should regenerate a new dice after every roll', async () => {
     const expectedNumberOfDices = 10
 
-    await store.dispatch(rollDice())
-    const firstDice = store.getState().dice.dice
+    const firstDice = await triggerRollDiceUseCase(store)
 
-    await store.dispatch(rollDice())
-    const secondDice = store.getState().dice.dice
+    randomNumberProvider.with(0.5)
+
+    const secondDice = await triggerRollDiceUseCase(store)
 
     expect(firstDice.length).toBe(expectedNumberOfDices)
     expect(secondDice.length).toBe(expectedNumberOfDices)
@@ -56,8 +59,8 @@ describe('Generate Random Dice', () => {
   })
 
   it('should have a value between 1 and 6', async () => {
-    await store.dispatch(rollDice())
-    const firstDieValue = store.getState().dice.dice[0].props.value
+    const generatedDice = await triggerRollDiceUseCase(store)
+    const firstDieValue = generatedDice[0].props.value
 
     expect(firstDieValue).toBeGreaterThanOrEqual(1)
     expect(firstDieValue).toBeLessThanOrEqual(6)
