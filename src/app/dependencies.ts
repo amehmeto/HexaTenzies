@@ -1,7 +1,7 @@
-import { RandomNumberProvider } from '../core/dice/ports/randomNumberProvider'
+import { RandomnessProvider } from '../core/dice/ports/randomnessProvider'
 import { IdProvider } from '../core/dice/ports/IdProvider'
 
 export interface Dependencies {
-  randomNumberProvider: RandomNumberProvider
+  randomnessProvider: RandomnessProvider
   idProvider: IdProvider
 }

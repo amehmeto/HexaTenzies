@@ -1,6 +1,6 @@
-import { RandomNumberProvider } from '../../core/dice/ports/randomNumberProvider'
+import { RandomnessProvider } from '../../core/dice/ports/randomnessProvider'
 
-export class InMemoryRandomNumberProvider implements RandomNumberProvider {
+export class InMemoryRandomnessProvider implements RandomnessProvider {
   private controlledRandomNumber = 0.3
 
   generate(): number {

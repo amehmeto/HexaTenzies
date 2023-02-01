@@ -1,11 +1,11 @@
 import { Die } from './components/Die'
 import './Dice.css'
-import { Die as DieModel, DieDTO } from '../../core/dice/entities/Die'
 import { RootState } from '../main'
 import { useSelector } from 'react-redux'
+import { DieViewModel } from '../../core/dice/mappers/DieMapper'
 
 export function Dice() {
-  const dice: DieDTO[] = useSelector<RootState, DieDTO[]>(
+  const dice: DieViewModel[] = useSelector<RootState, DieViewModel[]>(
     (state) => state.dice.dice,
   )
 

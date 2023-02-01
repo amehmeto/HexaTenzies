@@ -1,10 +1,13 @@
 import { ReduxStore } from '../../../../react-view/main'
 import { configureStoreWith } from '../../../../app/store'
 import { InMemoryIdProvider } from '../../../../infrastructure/idProvider/InMemoryIdProvider'
-import { InMemoryRandomNumberProvider } from '../../../../infrastructure/randomNumberProvider/InMemoryRandomNumberProvider'
+import { InMemoryRandomnessProvider } from '../../../../infrastructure/randomNumberProvider/InMemoryRandomnessProvider'
 import { Die } from '../../entities/Die'
 import { IdProvider } from '../../ports/IdProvider'
 import { rollDice } from './rollDice'
+import { Dice } from '../../entities/Dice'
+import { DieMapper } from '../../mappers/DieMapper'
+import { DiceMapper } from '../../mappers/DiceMapper'
 
 function dieDataBuilder() {
   return new Die('uuid', {
@@ -21,14 +24,14 @@ async function triggerRollDiceUseCase(store: ReduxStore) {
 describe('Generate Random Dice', () => {
   let store: ReduxStore
   let idProvider: IdProvider
-  let randomNumberProvider: InMemoryRandomNumberProvider
+  let randomnessProvider: InMemoryRandomnessProvider
 
   beforeEach(() => {
     idProvider = new InMemoryIdProvider()
-    randomNumberProvider = new InMemoryRandomNumberProvider()
+    randomnessProvider = new InMemoryRandomnessProvider()
     const dependencies = {
       idProvider: idProvider,
-      randomNumberProvider: randomNumberProvider,
+      randomnessProvider: randomnessProvider,
     }
     store = configureStoreWith(dependencies)
   })
@@ -37,19 +40,19 @@ describe('Generate Random Dice', () => {
     const NUMBER_OF_DIE = 10
     const expectedDice = Array(NUMBER_OF_DIE)
       .fill(dieDataBuilder())
-      .map((die) => die.toDTO())
+      .map((die) => DieMapper.toViewModel(die))
 
     const generatedDice = await triggerRollDiceUseCase(store)
 
     expect(generatedDice).toStrictEqual(expectedDice)
   })
 
-  it('should regenerate a new dice after every roll', async () => {
+  it('should generate new dice after every roll', async () => {
     const expectedNumberOfDie = 10
 
     const firstDice = await triggerRollDiceUseCase(store)
 
-    randomNumberProvider.with(0.5)
+    randomnessProvider.with(0.5)
 
     const secondDice = await triggerRollDiceUseCase(store)
 
@@ -58,7 +61,7 @@ describe('Generate Random Dice', () => {
     expect(firstDice).not.toStrictEqual(secondDice)
   })
 
-  it('should have a value between 1 and 6', async () => {
+  it('should have a value between 1 and 6 for each die', async () => {
     const generatedDice = await triggerRollDiceUseCase(store)
 
     generatedDice.forEach((die) => {
@@ -66,5 +69,14 @@ describe('Generate Random Dice', () => {
       expect(dieValue).toBeGreaterThanOrEqual(1)
       expect(dieValue).toBeLessThanOrEqual(6)
     })
+  })
+
+  it('should roll only non held die', async () => {
+    const dice = new Dice(idProvider, Array(10).fill(dieDataBuilder()))
+    const expectedDice = DiceMapper.toViewModel(dice)
+
+    const rolledDice = await triggerRollDiceUseCase(store)
+
+    expect(rolledDice).toStrictEqual(expectedDice)
   })
 })

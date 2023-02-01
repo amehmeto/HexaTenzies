@@ -1,6 +1,6 @@
-import { RandomNumberProvider } from '../../core/dice/ports/randomNumberProvider'
+import { RandomnessProvider } from '../../core/dice/ports/randomnessProvider'
 
-export class RealRandomNumberProvider implements RandomNumberProvider {
+export class RealRandomNumberProvider implements RandomnessProvider {
   generate(): number {
     return Math.random()
   }

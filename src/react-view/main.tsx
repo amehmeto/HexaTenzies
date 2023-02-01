@@ -9,7 +9,7 @@ import { Dependencies } from '../app/dependencies'
 import { UuidIdProvider } from '../infrastructure/idProvider/UuidIdProvider'
 
 const dependencies: Dependencies = {
-  randomNumberProvider: new RealRandomNumberProvider(),
+  randomnessProvider: new RealRandomNumberProvider(),
   idProvider: new UuidIdProvider(),
 }
 

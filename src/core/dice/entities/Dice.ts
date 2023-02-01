@@ -1,24 +1,20 @@
-import { RandomNumberProvider } from '../ports/randomNumberProvider'
+import { RandomnessProvider } from '../ports/randomnessProvider'
 import { IdProvider } from '../ports/IdProvider'
-import { Die, DieDTO } from './Die'
+import { Die } from './Die'
 
 export class Dice {
   private readonly AMOUNT_OF_DICE = 10
-  private readonly dice: Die[]
-
-  constructor(
-    private randomNumberProvider: RandomNumberProvider,
-    private idProvider: IdProvider,
-  ) {
-    this.dice = this.initializeDice()
+  public dice: Die[]
+  constructor(private readonly idProvider: IdProvider, dice?: Die[]) {
+    this.dice = dice || this.initializeDice()
   }
 
-  roll(): DieDTO[] {
-    return this.dice.map((die) => {
-      const randomNumber = this.randomNumberProvider.generate()
-      die.roll(randomNumber)
-      return die.toDTO()
+  roll(randomnessProvider: RandomnessProvider): Dice {
+    this.dice = this.dice.map((die) => {
+      die.roll(randomnessProvider)
+      return die
     })
+    return this
   }
 
   public initializeDice(): Die[] {

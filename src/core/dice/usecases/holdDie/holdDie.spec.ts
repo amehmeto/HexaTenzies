@@ -1,23 +1,23 @@
 import { ReduxStore } from '../../../../react-view/main'
 import { InMemoryIdProvider } from '../../../../infrastructure/idProvider/InMemoryIdProvider'
-import { InMemoryRandomNumberProvider } from '../../../../infrastructure/randomNumberProvider/InMemoryRandomNumberProvider'
+import { InMemoryRandomnessProvider } from '../../../../infrastructure/randomNumberProvider/InMemoryRandomnessProvider'
 import { configureStoreWith } from '../../../../app/store'
 import { IdProvider } from '../../ports/IdProvider'
-import { RandomNumberProvider } from '../../ports/randomNumberProvider'
+import { RandomnessProvider } from '../../ports/randomnessProvider'
 import { rollDice } from '../rollDice/rollDice'
 import { holdDie } from '../../diceSlice'
 
 describe('Hold Die', () => {
   let store: ReduxStore
   let idProvider: IdProvider
-  let randomNumberProvider: RandomNumberProvider
+  let randomNumberProvider: RandomnessProvider
 
   beforeEach(async () => {
     idProvider = new InMemoryIdProvider()
-    randomNumberProvider = new InMemoryRandomNumberProvider()
+    randomNumberProvider = new InMemoryRandomnessProvider()
     const dependencies = {
       idProvider: idProvider,
-      randomNumberProvider: randomNumberProvider,
+      randomnessProvider: randomNumberProvider,
     }
     store = configureStoreWith(dependencies)
     await store.dispatch(rollDice())

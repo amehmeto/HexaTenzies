@@ -1,6 +1,6 @@
 import { CaseReducer, PayloadAction } from '@reduxjs/toolkit'
 import { initialState } from '../../diceSlice'
-import { Die } from '../../entities/Die'
+import { DieMapper } from '../../mappers/DieMapper'
 
 type State = typeof initialState
 export const holdDieReducer: CaseReducer<State, PayloadAction<string>> = (
@@ -9,7 +9,7 @@ export const holdDieReducer: CaseReducer<State, PayloadAction<string>> = (
 ) => {
   const dieIndex = state.dice.findIndex((die) => die.id === action.payload)
   const dieToBeHeld = state.dice[dieIndex]
-  const die = Die.fromDTO(dieToBeHeld)
+  const die = DieMapper.fromViewModel(dieToBeHeld)
   die.hold()
-  state.dice[dieIndex] = die.toDTO()
+  state.dice[dieIndex] = DieMapper.toViewModel(die)
 }

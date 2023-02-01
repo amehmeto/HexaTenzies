@@ -1,8 +1,6 @@
-export interface DieDTO {
-  id: string
-  props: DieProps
-}
-interface DieProps {
+import { RandomnessProvider } from '../ports/randomnessProvider'
+
+export interface DieProps {
   value: number
   isHeld: boolean
 }
@@ -21,26 +19,12 @@ export class Die {
     this.props = props
   }
 
-  public roll(randomNumber: number): void {
-    this.props.value = ~~(randomNumber * this.MAX_VALUE) + this.MIN_VALUE
+  public roll(randomnessProvider: RandomnessProvider): void {
+    this.props.value =
+      ~~(randomnessProvider.generate() * this.MAX_VALUE) + this.MIN_VALUE
   }
 
   public hold(): void {
     this.props.isHeld = !this.props.isHeld
-  }
-
-  static fromDTO(dieDTO: DieDTO): Die {
-    const { id, props } = dieDTO
-    return new Die(id, props)
-  }
-
-  toDTO(): DieDTO {
-    return {
-      id: this.id,
-      props: {
-        value: this.props.value,
-        isHeld: this.props.isHeld,
-      },
-    }
   }
 }

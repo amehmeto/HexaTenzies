@@ -1,12 +1,29 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { DieDTO } from './entities/Die'
 import { rollDice } from './usecases/rollDice/rollDice'
 import { holdDieReducer } from './usecases/holdDie/holdDie'
+import { Dice } from './entities/Dice'
+import { DieViewModel } from './mappers/DieMapper'
 
-type Tuple10<T> = [T, T, T, T, T, T, T, T, T]
+// type Tuple10<T> = [T, T, T, T, T, T, T, T, T, T]
+//
+// function initDice(): Tuple10<DieViewModel> {
+//   const new Dice()
+//   return [
+//     undefined,
+//     undefined,
+//     undefined,
+//     undefined,
+//     undefined,
+//     undefined,
+//     undefined,
+//     undefined,
+//     undefined,
+//     undefined,
+//   ]
+// }
 
 export const initialState = {
-  dice: [] as DieDTO[],
+  dice: [] as DieViewModel[],
   loading: false,
   error: null,
 }
