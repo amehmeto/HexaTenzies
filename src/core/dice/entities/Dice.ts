@@ -11,7 +11,7 @@ export class Dice {
 
   roll(randomnessProvider: RandomnessProvider): Dice {
     this.dice = this.dice.map((die) => {
-      die.roll(randomnessProvider)
+      if (!die.props.isHeld) die.roll(randomnessProvider)
       return die
     })
     return this

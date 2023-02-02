@@ -8,6 +8,7 @@ import { Dice } from '../../entities/Dice'
 import { DiceMapper } from '../../mappers/DiceMapper'
 import { dieDataBuilder } from '../../data-builders/dieDataBuilder'
 import { diceDataBuilder } from '../../data-builders/diceDataBuilder'
+import { initializeDice } from '../initializeDice/initializeDice'
 
 async function triggerRollDiceUseCase(store: ReduxStore) {
   await store.dispatch(rollDice())
@@ -40,6 +41,8 @@ describe('Generate Random Dice', () => {
   it('should generate new dice after every roll', async () => {
     const expectedNumberOfDie = 10
 
+    randomnessProvider.with(0.1)
+
     const firstDice = await triggerRollDiceUseCase(store)
 
     randomnessProvider.with(0.5)
@@ -61,7 +64,7 @@ describe('Generate Random Dice', () => {
     })
   })
 
-  it.skip('should roll only non held die', async () => {
+  it('should roll only non held die', async () => {
     const expectedUnmodifiedProps = {
       props: {
         isHeld: true,
@@ -76,13 +79,13 @@ describe('Generate Random Dice', () => {
     ]
     const dice = new Dice(idProvider, heldAndNonHeldDiceMix)
     const initialDice = DiceMapper.toViewModel(dice)
-    //store.dice.initialize = initialDice
+    await store.dispatch(initializeDice(initialDice))
 
     const rolledDice = await triggerRollDiceUseCase(store)
     const first3Die = [rolledDice[0], rolledDice[1], rolledDice[2]]
 
     first3Die.map((die) => {
-      expect(die.props).toStrictEqual(expectedUnmodifiedProps)
+      expect(die.props).toStrictEqual(expectedUnmodifiedProps.props)
     })
   })
 })
