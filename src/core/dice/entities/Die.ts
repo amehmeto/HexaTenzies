@@ -11,7 +11,7 @@ export class Die {
 
   constructor(
     public readonly id: string,
-    readonly props: DieProps = {
+    public readonly props: DieProps = {
       value: 6,
       isHeld: false,
     },

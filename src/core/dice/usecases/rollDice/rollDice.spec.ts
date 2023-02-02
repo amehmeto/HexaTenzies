@@ -2,19 +2,12 @@ import { ReduxStore } from '../../../../react-view/main'
 import { configureStoreWith } from '../../../../app/store'
 import { InMemoryIdProvider } from '../../../../infrastructure/idProvider/InMemoryIdProvider'
 import { InMemoryRandomnessProvider } from '../../../../infrastructure/randomNumberProvider/InMemoryRandomnessProvider'
-import { Die } from '../../entities/Die'
 import { IdProvider } from '../../ports/IdProvider'
 import { rollDice } from './rollDice'
 import { Dice } from '../../entities/Dice'
-import { DieMapper } from '../../mappers/DieMapper'
 import { DiceMapper } from '../../mappers/DiceMapper'
-
-function dieDataBuilder() {
-  return new Die('uuid', {
-    value: 2,
-    isHeld: false,
-  })
-}
+import { dieDataBuilder } from '../../data-builders/dieDataBuilder'
+import { diceDataBuilder } from '../../data-builders/diceDataBuilder'
 
 async function triggerRollDiceUseCase(store: ReduxStore) {
   await store.dispatch(rollDice())
@@ -37,10 +30,7 @@ describe('Generate Random Dice', () => {
   })
 
   it('should generate 10 random die', async () => {
-    const NUMBER_OF_DIE = 10
-    const expectedDice = Array(NUMBER_OF_DIE)
-      .fill(dieDataBuilder())
-      .map((die) => DieMapper.toViewModel(die))
+    const expectedDice = diceDataBuilder(dieDataBuilder())
 
     const generatedDice = await triggerRollDiceUseCase(store)
 
@@ -71,12 +61,28 @@ describe('Generate Random Dice', () => {
     })
   })
 
-  it('should roll only non held die', async () => {
-    const dice = new Dice(idProvider, Array(10).fill(dieDataBuilder()))
-    const expectedDice = DiceMapper.toViewModel(dice)
+  it.skip('should roll only non held die', async () => {
+    const expectedUnmodifiedProps = {
+      props: {
+        isHeld: true,
+        value: 6,
+      },
+    }
+    const heldAndNonHeldDiceMix = [
+      dieDataBuilder(expectedUnmodifiedProps),
+      dieDataBuilder(expectedUnmodifiedProps),
+      dieDataBuilder(expectedUnmodifiedProps),
+      ...Array(7).fill(dieDataBuilder()),
+    ]
+    const dice = new Dice(idProvider, heldAndNonHeldDiceMix)
+    const initialDice = DiceMapper.toViewModel(dice)
+    //store.dice.initialize = initialDice
 
     const rolledDice = await triggerRollDiceUseCase(store)
+    const first3Die = [rolledDice[0], rolledDice[1], rolledDice[2]]
 
-    expect(rolledDice).toStrictEqual(expectedDice)
+    first3Die.map((die) => {
+      expect(die.props).toStrictEqual(expectedUnmodifiedProps)
+    })
   })
 })

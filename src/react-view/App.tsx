@@ -5,11 +5,13 @@ import { useDispatch } from 'react-redux'
 import { AppDispatch } from './main'
 import { rollDice } from '../core/dice/usecases/rollDice/rollDice'
 import { useEffect } from 'react'
+import { initializeDice } from '../core/dice/usecases/initializeDice/initializeDice'
 
 function App() {
   const dispatch = useDispatch<AppDispatch>()
 
   useEffect(() => {
+    dispatch(initializeDice())
     dispatch(rollDice())
   }, [])
 
