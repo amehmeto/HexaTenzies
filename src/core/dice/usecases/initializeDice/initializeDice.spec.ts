@@ -1,15 +1,17 @@
 import { initializeDice } from './initializeDice'
 import { ReduxStore } from '../../../../react-view/main'
-import { IdProvider } from '../../ports/IdProvider'
 import { InMemoryRandomnessProvider } from '../../../../infrastructure/randomNumberProvider/InMemoryRandomnessProvider'
 import { InMemoryIdProvider } from '../../../../infrastructure/idProvider/InMemoryIdProvider'
 import { configureStoreWith } from '../../../../app/store'
 import { diceDataBuilder } from '../../data-builders/diceDataBuilder'
+import { DieViewModel } from '../../mappers/DieMapper'
 
-async function triggerInitializeDiceUseCase(store: ReduxStore) {
-  await store.dispatch(initializeDice())
-  const initializedDice = store.getState().dice.dice
-  return initializedDice
+async function triggerInitializeDiceUseCase(
+  store: ReduxStore,
+  dice?: DieViewModel[],
+) {
+  await store.dispatch(initializeDice(dice))
+  return store.getState().dice.dice
 }
 
 describe('Initialize Dice', () => {
@@ -27,7 +29,7 @@ describe('Initialize Dice', () => {
     store = configureStoreWith(dependencies)
   })
 
-  it('should initialize 10 die with a value of 6 and non held', async () => {
+  it('should initialize 10 die with a value of 6 and non held by default', async () => {
     const expectedDice = diceDataBuilder({
       props: {
         value: 6,
@@ -49,5 +51,22 @@ describe('Initialize Dice', () => {
     initializedDice.forEach((die) => {
       expect(die.id).toStrictEqual(expectedId)
     })
+  })
+
+  it('should initialize dice with given die props', async () => {
+    const givenInitialDie = {
+      props: {
+        value: 3,
+        isHeld: true,
+      },
+    }
+    const expectedDice = diceDataBuilder(givenInitialDie)
+
+    const initializedDice = await triggerInitializeDiceUseCase(
+      store,
+      expectedDice,
+    )
+
+    expect(initializedDice).toStrictEqual(expectedDice)
   })
 })
