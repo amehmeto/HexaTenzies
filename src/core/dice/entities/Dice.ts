@@ -18,6 +18,7 @@ export class Dice {
       if (!die.props.isHeld) die.roll(randomnessProvider)
       return die
     })
+    if (this.dies.every((die) => die.props.isHeld)) this.isTenzies = true
     return this
   }
 

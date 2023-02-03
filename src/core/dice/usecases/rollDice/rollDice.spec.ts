@@ -12,7 +12,7 @@ import { initializeDice } from '../initializeDice/initializeDice'
 
 async function triggerRollDiceUseCase(store: ReduxStore) {
   await store.dispatch(rollDice())
-  return store.getState().dice.dice.dies
+  return store.getState().dice.dice
 }
 
 describe('Generate Random Dice', () => {
@@ -35,7 +35,7 @@ describe('Generate Random Dice', () => {
 
     const generatedDice = await triggerRollDiceUseCase(store)
 
-    expect(generatedDice).toStrictEqual(expectedDice.dies)
+    expect(generatedDice.dies).toStrictEqual(expectedDice.dies)
   })
 
   it('should generate new dice after every roll', async () => {
@@ -43,11 +43,11 @@ describe('Generate Random Dice', () => {
 
     randomnessProvider.with(0.1)
 
-    const firstDice = await triggerRollDiceUseCase(store)
+    const { dies: firstDice } = await triggerRollDiceUseCase(store)
 
     randomnessProvider.with(0.5)
 
-    const secondDice = await triggerRollDiceUseCase(store)
+    const { dies: secondDice } = await triggerRollDiceUseCase(store)
 
     expect(firstDice.length).toBe(expectedNumberOfDie)
     expect(secondDice.length).toBe(expectedNumberOfDie)
@@ -57,7 +57,7 @@ describe('Generate Random Dice', () => {
   it('should have a value between 1 and 6 for each die', async () => {
     const generatedDice = await triggerRollDiceUseCase(store)
 
-    generatedDice.forEach((die) => {
+    generatedDice.dies.forEach((die) => {
       const dieValue = die.props.value
       expect(dieValue).toBeGreaterThanOrEqual(1)
       expect(dieValue).toBeLessThanOrEqual(6)
@@ -81,7 +81,7 @@ describe('Generate Random Dice', () => {
     const initialDice = DiceMapper.toViewModel(dice)
     await store.dispatch(initializeDice(initialDice))
 
-    const rolledDice = await triggerRollDiceUseCase(store)
+    const { dies: rolledDice } = await triggerRollDiceUseCase(store)
     const first3Die = [rolledDice[0], rolledDice[1], rolledDice[2]]
 
     first3Die.map((die) => {
@@ -90,9 +90,14 @@ describe('Generate Random Dice', () => {
   })
 
   it('should be a Tenzies when all held dies values are the same', async () => {
-    await store.dispatch(rollDice())
-    const isTenzies = store.getState().dice.dice.isTenzies
+    const sameDie = dieDataBuilder({ props: { isHeld: true, value: 6 } })
+    const winningDice = diceDataBuilder(sameDie)
 
-    expect(isTenzies)
+    await store.dispatch(initializeDice(winningDice))
+
+    await store.dispatch(rollDice())
+    const rolledDice = await triggerRollDiceUseCase(store)
+
+    expect(rolledDice.isTenzies).toBeTruthy()
   })
 })
