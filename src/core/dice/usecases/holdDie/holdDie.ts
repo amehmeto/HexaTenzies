@@ -7,9 +7,10 @@ export const holdDieReducer: CaseReducer<State, PayloadAction<string>> = (
   state,
   action,
 ) => {
-  const dieIndex = state.dice.findIndex((die) => die.id === action.payload)
-  const dieToBeHeld = state.dice[dieIndex]
+  const dies = state.dice.dies
+  const dieIndex = dies.findIndex((die) => die.id === action.payload)
+  const dieToBeHeld = dies[dieIndex]
   const die = DieMapper.fromViewModel(dieToBeHeld)
   die.hold()
-  state.dice[dieIndex] = DieMapper.toViewModel(die)
+  dies[dieIndex] = DieMapper.toViewModel(die)
 }

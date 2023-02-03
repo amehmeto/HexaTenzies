@@ -4,14 +4,14 @@ import { InMemoryRandomnessProvider } from '../../../../infrastructure/randomNum
 import { InMemoryIdProvider } from '../../../../infrastructure/idProvider/InMemoryIdProvider'
 import { configureStoreWith } from '../../../../app/store'
 import { diceDataBuilder } from '../../data-builders/diceDataBuilder'
-import { DieViewModel } from '../../mappers/DieMapper'
+import { DiceViewModel } from '../../diceSlice'
 
 async function triggerInitializeDiceUseCase(
   store: ReduxStore,
-  dice?: DieViewModel[],
+  dice?: DiceViewModel,
 ) {
   await store.dispatch(initializeDice(dice))
-  return store.getState().dice.dice
+  return store.getState().dice.dice.dies
 }
 
 describe('Initialize Dice', () => {
@@ -39,7 +39,7 @@ describe('Initialize Dice', () => {
 
     const initializedDice = await triggerInitializeDiceUseCase(store)
 
-    expect(initializedDice).toStrictEqual(expectedDice)
+    expect(initializedDice).toStrictEqual(expectedDice.dies)
   })
 
   it('should initialize all 10 dies with unique id', async () => {
@@ -67,6 +67,6 @@ describe('Initialize Dice', () => {
       expectedDice,
     )
 
-    expect(initializedDice).toStrictEqual(expectedDice)
+    expect(initializedDice).toStrictEqual(expectedDice.dies)
   })
 })

@@ -4,13 +4,14 @@ import { DieViewModel } from '../../mappers/DieMapper'
 import { DiceMapper } from '../../mappers/DiceMapper'
 import { Dependencies } from '../../../../app/dependencies'
 import { RootState } from '../../../../react-view/main'
+import { DiceViewModel } from '../../diceSlice'
 
 function isNotEmpty(diceFromState: DieViewModel[]) {
   return diceFromState && diceFromState.length !== 0
 }
 
 export const rollDice = createAsyncThunk<
-  DieViewModel[],
+  DiceViewModel,
   void,
   {
     state: RootState
@@ -21,10 +22,10 @@ export const rollDice = createAsyncThunk<
   async (thunkArg, { getState, extra: { randomnessProvider, idProvider } }) => {
     const rawDice = getState().dice.dice
 
-    const diceFromState = DiceMapper.fromViewModel(rawDice)
+    const { isTenzies, dies } = DiceMapper.fromViewModel(idProvider, rawDice)
 
-    const dice = isNotEmpty(diceFromState)
-      ? new Dice(idProvider, diceFromState)
+    const dice = isNotEmpty(dies)
+      ? new Dice(idProvider, isTenzies, dies)
       : new Dice(idProvider)
 
     dice.roll(randomnessProvider)

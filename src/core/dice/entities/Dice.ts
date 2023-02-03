@@ -4,13 +4,17 @@ import { Die } from './Die'
 
 export class Dice {
   private readonly AMOUNT_OF_DICE = 10
-  public dice: Die[]
-  constructor(private readonly idProvider: IdProvider, dice?: Die[]) {
-    this.dice = dice || this.initializeDice()
+  public dies: Die[]
+  constructor(
+    private readonly idProvider: IdProvider,
+    public isTenzies: boolean = false,
+    dies?: Die[],
+  ) {
+    this.dies = dies || this.initializeDice()
   }
 
   roll(randomnessProvider: RandomnessProvider): Dice {
-    this.dice = this.dice.map((die) => {
+    this.dies = this.dies.map((die) => {
       if (!die.props.isHeld) die.roll(randomnessProvider)
       return die
     })

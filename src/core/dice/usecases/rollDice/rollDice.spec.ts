@@ -12,7 +12,7 @@ import { initializeDice } from '../initializeDice/initializeDice'
 
 async function triggerRollDiceUseCase(store: ReduxStore) {
   await store.dispatch(rollDice())
-  return store.getState().dice.dice
+  return store.getState().dice.dice.dies
 }
 
 describe('Generate Random Dice', () => {
@@ -35,7 +35,7 @@ describe('Generate Random Dice', () => {
 
     const generatedDice = await triggerRollDiceUseCase(store)
 
-    expect(generatedDice).toStrictEqual(expectedDice)
+    expect(generatedDice).toStrictEqual(expectedDice.dies)
   })
 
   it('should generate new dice after every roll', async () => {
@@ -77,7 +77,7 @@ describe('Generate Random Dice', () => {
       dieDataBuilder(expectedUnmodifiedProps),
       ...Array(7).fill(dieDataBuilder()),
     ]
-    const dice = new Dice(idProvider, heldAndNonHeldDiceMix)
+    const dice = new Dice(idProvider, false, heldAndNonHeldDiceMix)
     const initialDice = DiceMapper.toViewModel(dice)
     await store.dispatch(initializeDice(initialDice))
 
@@ -87,5 +87,12 @@ describe('Generate Random Dice', () => {
     first3Die.map((die) => {
       expect(die.props).toStrictEqual(expectedUnmodifiedProps.props)
     })
+  })
+
+  it('should be a Tenzies when all held dies values are the same', async () => {
+    await store.dispatch(rollDice())
+    const isTenzies = store.getState().dice.dice.isTenzies
+
+    expect(isTenzies)
   })
 })

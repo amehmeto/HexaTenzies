@@ -6,7 +6,7 @@ import { DieViewModel } from '../../core/dice/mappers/DieMapper'
 
 export function Dice() {
   const dice: DieViewModel[] = useSelector<RootState, DieViewModel[]>(
-    (state) => state.dice.dice,
+    (state) => state.dice.dice.dies,
   )
 
   const diceElements = dice.map((die) => <Die key={die.id} die={die} />)

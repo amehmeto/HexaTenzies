@@ -7,6 +7,13 @@ import { RandomnessProvider } from '../../ports/randomnessProvider'
 import { rollDice } from '../rollDice/rollDice'
 import { holdDie } from '../../diceSlice'
 
+async function triggerHoldDieUseCase(store: ReduxStore, dieId: string) {
+  await store.dispatch(holdDie(dieId))
+  const dice = store.getState().dice.dice
+  const heldDie = dice.dies.find((die) => die.id === dieId)
+  return heldDie
+}
+
 describe('Hold Die', () => {
   let store: ReduxStore
   let idProvider: IdProvider
@@ -26,9 +33,7 @@ describe('Hold Die', () => {
   it('should hold the die', async () => {
     const dieId = 'uuid'
 
-    await store.dispatch(holdDie(dieId))
-    const dice = store.getState().dice.dice
-    const heldDie = dice.find((die) => die.id === dieId)
+    const heldDie = await triggerHoldDieUseCase(store, dieId)
 
     expect(heldDie!.props.isHeld).toBeTruthy()
   })
@@ -36,14 +41,11 @@ describe('Hold Die', () => {
   it('should release a held die', async () => {
     const dieId = 'uuid'
 
-    await store.dispatch(holdDie(dieId))
-    const dice1 = store.getState().dice.dice
-    const heldDie1 = dice1.find((die) => die.id === dieId)
+    const heldDie1 = await triggerHoldDieUseCase(store, dieId)
+
     expect(heldDie1!.props.isHeld).toBeTruthy()
 
-    await store.dispatch(holdDie(dieId))
-    const dice = store.getState().dice.dice
-    const heldDie = dice.find((die) => die.id === dieId)
+    const heldDie = await triggerHoldDieUseCase(store, dieId)
 
     expect(heldDie!.props.isHeld).toBeFalsy()
   })

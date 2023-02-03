@@ -1,5 +1,8 @@
 import { dieDataBuilder } from './dieDataBuilder'
 import { DieMapper } from '../mappers/DieMapper'
+import { Dice } from '../entities/Dice'
+import { InMemoryIdProvider } from '../../../infrastructure/idProvider/InMemoryIdProvider'
+import { DiceMapper } from '../mappers/DiceMapper'
 
 export function diceDataBuilder(die = {}) {
   const NUMBER_OF_DIE = 10
@@ -9,7 +12,10 @@ export function diceDataBuilder(die = {}) {
       isHeld: false,
     },
   }
-  return Array(NUMBER_OF_DIE)
-    .fill(dieDataBuilder({ ...defaultDie, ...die }))
-    .map((_die) => DieMapper.toViewModel(_die))
+  const dice = new Dice(
+    new InMemoryIdProvider(),
+    false,
+    Array(NUMBER_OF_DIE).fill(dieDataBuilder({ ...defaultDie, ...die })),
+  )
+  return DiceMapper.toViewModel(dice)
 }

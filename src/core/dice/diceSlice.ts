@@ -4,8 +4,17 @@ import { holdDieReducer } from './usecases/holdDie/holdDie'
 import { DieViewModel } from './mappers/DieMapper'
 import { initializeDice } from './usecases/initializeDice/initializeDice'
 
+export type DiceViewModel = {
+  isTenzies: boolean
+  dies: DieViewModel[]
+}
+
+const initialDice = {
+  isTenzies: false,
+  dies: [] as DieViewModel[],
+}
 export const initialState = {
-  dice: [] as DieViewModel[],
+  dice: initialDice,
   loading: false,
   error: null,
 }
