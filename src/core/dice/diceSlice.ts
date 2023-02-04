@@ -3,6 +3,7 @@ import { rollDice } from './usecases/rollDice/rollDice'
 import { holdDieReducer } from './usecases/holdDie/holdDie'
 import { DieViewModel } from './mappers/DieMapper'
 import { initializeDice } from './usecases/initializeDice/initializeDice'
+import { checkTenzies } from './usecases/checkTenzies/checkTenzies'
 
 export type DiceViewModel = {
   isTenzies: boolean
@@ -31,6 +32,9 @@ export const diceSlice = createSlice({
     })
     builder.addCase(initializeDice.fulfilled, (state, action) => {
       state.dice = action.payload
+    })
+    builder.addCase(checkTenzies.fulfilled, (state, action) => {
+      state.dice.isTenzies = action.payload
     })
   },
 })

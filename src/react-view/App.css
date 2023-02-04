@@ -22,6 +22,12 @@ main {
   padding: var(--spacing-md);
   margin: 0 auto;
 }
+.instructions {
+  font-family: var(--font-family-secondary), sans-serif;
+  font-weight: var(--font-weight-medium);
+  margin-top: 0;
+  text-align: center;
+}
 
 .roll-btn {
   border: none;

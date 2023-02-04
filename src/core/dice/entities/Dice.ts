@@ -18,8 +18,17 @@ export class Dice {
       if (!die.props.isHeld) die.roll(randomnessProvider)
       return die
     })
-    if (this.dies.every((die) => die.props.isHeld)) this.isTenzies = true
+
     return this
+  }
+
+  checkTenzies() {
+    if (this.areAllDiesHeld() && this.areAllDiesSameValue())
+      this.isTenzies = true
+  }
+
+  private areAllDiesHeld() {
+    return this.dies.every((die) => die.props.isHeld)
   }
 
   public initializeDice(): Die[] {
@@ -31,5 +40,11 @@ export class Dice {
   private generateDie() {
     const newId = this.idProvider.getNew()
     return new Die(newId)
+  }
+
+  private areAllDiesSameValue() {
+    const firstValue = this.dies[0].props.value
+
+    return this.dies.every((die) => die.props.value === firstValue)
   }
 }

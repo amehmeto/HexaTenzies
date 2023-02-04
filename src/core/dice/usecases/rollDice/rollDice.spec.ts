@@ -9,6 +9,7 @@ import { DiceMapper } from '../../mappers/DiceMapper'
 import { dieDataBuilder } from '../../data-builders/dieDataBuilder'
 import { diceDataBuilder } from '../../data-builders/diceDataBuilder'
 import { initializeDice } from '../initializeDice/initializeDice'
+import { DieMapper } from '../../mappers/DieMapper'
 
 async function triggerRollDiceUseCase(store: ReduxStore) {
   await store.dispatch(rollDice())
@@ -87,17 +88,5 @@ describe('Generate Random Dice', () => {
     first3Die.map((die) => {
       expect(die.props).toStrictEqual(expectedUnmodifiedProps.props)
     })
-  })
-
-  it('should be a Tenzies when all held dies values are the same', async () => {
-    const sameDie = dieDataBuilder({ props: { isHeld: true, value: 6 } })
-    const winningDice = diceDataBuilder(sameDie)
-
-    await store.dispatch(initializeDice(winningDice))
-
-    await store.dispatch(rollDice())
-    const rolledDice = await triggerRollDiceUseCase(store)
-
-    expect(rolledDice.isTenzies).toBeTruthy()
   })
 })

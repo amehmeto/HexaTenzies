@@ -13,9 +13,11 @@
 
     /* FONTS */
     --font-family-primary: 'Karla';
+    --font-family-secondary: 'Inter';
     --font-size-big: 1.2rem;
     --font-size-bigger: 2rem;
     --font-weight-bold: bold;
+    --font-weight-medium: 400;
 
     /* SPACING */
     --spacing-md: 20px;

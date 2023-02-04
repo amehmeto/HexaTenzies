@@ -21,7 +21,6 @@ export function Die({
 }: DieProps) {
   const dispatch = useDispatch<AppDispatch>()
 
-  console.log(id, isHeld, value)
   const isHeldStyle = {
     backgroundColor: isHeld ? `var(--held-die)` : `var(--bright-white)`,
   }
