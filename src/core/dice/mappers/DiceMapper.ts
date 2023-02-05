@@ -1,7 +1,7 @@
-import { DieMapper } from './DieMapper'
 import { Dice } from '../entities/Dice'
 import { DiceViewModel } from '../diceSlice'
 import { IdProvider } from '../ports/IdProvider'
+import { DieMapper } from './DieMapper'
 
 export class DiceMapper {
   static toViewModel(dice: Dice): DiceViewModel {

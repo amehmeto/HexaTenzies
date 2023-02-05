@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { rollDice } from './usecases/rollDice/rollDice'
-import { holdDieReducer } from './usecases/holdDie/holdDie'
+import { holdDie } from './usecases/holdDie/holdDie'
 import { DieViewModel } from './mappers/DieMapper'
 import { initializeDice } from './usecases/initializeDice/initializeDice'
 import { checkTenzies } from './usecases/checkTenzies/checkTenzies'
@@ -24,7 +24,6 @@ export const diceSlice = createSlice({
   name: 'dice',
   initialState,
   reducers: {
-    holdDie: holdDieReducer,
   },
   extraReducers: (builder) => {
     builder.addCase(rollDice.fulfilled, (state, action) => {
@@ -36,7 +35,9 @@ export const diceSlice = createSlice({
     builder.addCase(checkTenzies.fulfilled, (state, action) => {
       state.dice.isTenzies = action.payload
     })
+    builder.addCase(holdDie.fulfilled, (state, action) => {
+      state.dice = action.payload
+    })
   },
 })
 
-export const { holdDie } = diceSlice.actions

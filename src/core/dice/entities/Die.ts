@@ -3,11 +3,13 @@ import { RandomnessProvider } from '../ports/randomnessProvider'
 export interface DieProps {
   value: number
   isHeld: boolean
+  isCorrect: boolean
 }
 
 const DEFAULT_DIE_PROPS = {
   value: 6,
   isHeld: false,
+  isCorrect: false,
 }
 
 export class Die {
@@ -28,12 +30,19 @@ export class Die {
     this.props = {
       value: newRandomValue,
       isHeld: this.props.isHeld,
+      isCorrect: this.props.isCorrect,
     }
     // The next line works 1 time but not 2 times, WTF
     // this.props.value = newValue
   }
 
-  public hold(): void {
-    this.props.isHeld = !this.props.isHeld
+  public hold(previouslyHeldDieValue: number | undefined): void {
+    const isCorrect = (this.props.value === previouslyHeldDieValue) || !previouslyHeldDieValue
+
+    this.props = {
+      value: this.props.value,
+      isHeld: !this.props.isHeld,
+      isCorrect,
+    }
   }
 }

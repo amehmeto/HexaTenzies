@@ -9,9 +9,9 @@ import { DiceViewModel } from '../../diceSlice'
 async function triggerInitializeDiceUseCase(
   store: ReduxStore,
   dice?: DiceViewModel,
-) {
+): Promise<DiceViewModel> {
   await store.dispatch(initializeDice(dice))
-  return store.getState().dice.dice.dies
+  return store.getState().dice.dice
 }
 
 describe('Initialize Dice', () => {
@@ -34,12 +34,13 @@ describe('Initialize Dice', () => {
       props: {
         value: 6,
         isHeld: false,
+        isCorrect: false,
       },
     })
 
     const initializedDice = await triggerInitializeDiceUseCase(store)
 
-    expect(initializedDice).toStrictEqual(expectedDice.dies)
+    expect(initializedDice.dies).toStrictEqual(expectedDice.dies)
   })
 
   it('should initialize all 10 dies with unique id', async () => {
@@ -48,7 +49,7 @@ describe('Initialize Dice', () => {
 
     const initializedDice = await triggerInitializeDiceUseCase(store)
 
-    initializedDice.forEach((die) => {
+    initializedDice.dies.forEach((die) => {
       expect(die.id).toStrictEqual(expectedId)
     })
   })
@@ -67,6 +68,6 @@ describe('Initialize Dice', () => {
       expectedDice,
     )
 
-    expect(initializedDice).toStrictEqual(expectedDice.dies)
+    expect(initializedDice.dies).toStrictEqual(expectedDice.dies)
   })
 })

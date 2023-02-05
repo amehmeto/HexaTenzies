@@ -9,7 +9,6 @@ import { DiceMapper } from '../../mappers/DiceMapper'
 import { dieDataBuilder } from '../../data-builders/dieDataBuilder'
 import { diceDataBuilder } from '../../data-builders/diceDataBuilder'
 import { initializeDice } from '../initializeDice/initializeDice'
-import { DieMapper } from '../../mappers/DieMapper'
 
 async function triggerRollDiceUseCase(store: ReduxStore) {
   await store.dispatch(rollDice())
@@ -69,6 +68,7 @@ describe('Generate Random Dice', () => {
     const expectedUnmodifiedProps = {
       props: {
         isHeld: true,
+        isCorrect: false,
         value: 6,
       },
     }

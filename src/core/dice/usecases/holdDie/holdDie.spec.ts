@@ -5,13 +5,16 @@ import { configureStoreWith } from '../../../../app/store'
 import { IdProvider } from '../../ports/IdProvider'
 import { RandomnessProvider } from '../../ports/randomnessProvider'
 import { rollDice } from '../rollDice/rollDice'
-import { holdDie } from '../../diceSlice'
+import { initializeDice } from '../initializeDice/initializeDice'
+import { DiceMapper } from '../../mappers/DiceMapper'
+import { Dice } from '../../entities/Dice'
+import { dieDataBuilder } from '../../data-builders/dieDataBuilder'
+import { holdDie } from './holdDie'
 
 async function triggerHoldDieUseCase(store: ReduxStore, dieId: string) {
   await store.dispatch(holdDie(dieId))
   const dice = store.getState().dice.dice
-  const heldDie = dice.dies.find((die) => die.id === dieId)
-  return heldDie
+  return dice.dies.find((die) => die.id === dieId)
 }
 
 describe('Hold Die', () => {
@@ -48,5 +51,84 @@ describe('Hold Die', () => {
     const heldDie = await triggerHoldDieUseCase(store, dieId)
 
     expect(heldDie!.props.isHeld).toBeFalsy()
+  })
+
+  it("should mark the die has correct when it's the first to be held", async () => {
+    const dies = Array(10).fill(dieDataBuilder())
+    const noHeldDieDice = new Dice(idProvider, false, dies)
+    const diceViewModel = DiceMapper.toViewModel(noHeldDieDice)
+
+    await store.dispatch(initializeDice(diceViewModel))
+
+    const heldDie = await triggerHoldDieUseCase(store, 'uuid')
+
+    expect(heldDie!.props.isCorrect).toBeTruthy()
+  })
+
+  it('should mark the die has correct when value match previously held dice', async () => {
+    const dies = Array(10).fill(dieDataBuilder({
+      props: { value: 2 }
+    }))
+    dies[0] = dieDataBuilder({
+      id: 'held die id',
+      props: {
+        value: 2,
+        isHeld: true,
+        isCorrect: false,
+      },
+    })
+    const noHeldDieDice = new Dice(idProvider, false, dies)
+    const diceViewModel = DiceMapper.toViewModel(noHeldDieDice)
+
+    await store.dispatch(initializeDice(diceViewModel))
+
+    const heldDie = await triggerHoldDieUseCase(store, 'held die id')
+
+    expect(heldDie!.props.isCorrect).toBeTruthy()
+  })
+
+  it('should mark the die has correct when previously held dice aren\'t correct', async () => {
+    const dies = Array(10).fill(dieDataBuilder({
+      props: { value: 2, isHeld: true,
+        isCorrect: false,}
+    }))
+    dies[0] = dieDataBuilder({
+      id: 'held die id',
+      props: {
+        value: 6,
+        isHeld: false,
+        isCorrect: false,
+      },
+    })
+    const noHeldDieDice = new Dice(idProvider, false, dies)
+    const diceViewModel = DiceMapper.toViewModel(noHeldDieDice)
+
+    await store.dispatch(initializeDice(diceViewModel))
+
+    const heldDie = await triggerHoldDieUseCase(store, 'held die id')
+
+    expect(heldDie!.props.isCorrect).toBeTruthy()
+  })
+
+  it('should not mark the die has correct when value doesn\'t match previously held dice', async () => {
+    const dies = Array(10).fill(dieDataBuilder({
+      props: { value: 2, isHeld: true, isCorrect: true }
+    }))
+    dies[0] = dieDataBuilder({
+      id: 'held die id',
+      props: {
+        value: 6,
+        isHeld: true,
+        isCorrect: false,
+      },
+    })
+    const noHeldDieDice = new Dice(idProvider, false, dies)
+    const diceViewModel = DiceMapper.toViewModel(noHeldDieDice)
+
+    await store.dispatch(initializeDice(diceViewModel))
+
+    const heldDie = await triggerHoldDieUseCase(store, 'held die id')
+
+    expect(heldDie!.props.isCorrect).toBeFalsy()
   })
 })

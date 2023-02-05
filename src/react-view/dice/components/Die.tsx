@@ -1,7 +1,7 @@
 import './Die.css'
 import { useDispatch } from 'react-redux'
 import { AppDispatch } from '../../main'
-import { holdDie } from '../../../core/dice/diceSlice'
+import { holdDie } from '../../../core/dice/usecases/holdDie/holdDie'
 
 interface DieProps {
   die: {
@@ -9,6 +9,7 @@ interface DieProps {
     props: {
       value: number
       isHeld: boolean
+      isCorrect: boolean
     }
   }
 }
@@ -16,13 +17,21 @@ interface DieProps {
 export function Die({
   die: {
     id,
-    props: { isHeld, value },
+    props: { isHeld, isCorrect, value },
   },
 }: DieProps) {
   const dispatch = useDispatch<AppDispatch>()
 
+  function determineBackgroundColor() {
+    if (!isHeld) return `var(--bright-white)`
+
+    return isCorrect ? `var(--correct-die)` : `var(--incorrect-die)`
+  }
+
+  const backgroundColor = determineBackgroundColor()
+
   const isHeldStyle = {
-    backgroundColor: isHeld ? `var(--held-die)` : `var(--bright-white)`,
+    backgroundColor,
   }
 
   return (

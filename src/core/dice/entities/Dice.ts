@@ -47,4 +47,10 @@ export class Dice {
 
     return this.dies.every((die) => die.props.value === firstValue)
   }
+
+  hold(dieToBeHeldId: string) {
+    const dieToBeHeldIndex = this.dies.findIndex(die => die.id === dieToBeHeldId)
+    const previouslyCorrectHeldDie = this.dies.find(die => die.props.isHeld && die.props.isCorrect)
+    this.dies[dieToBeHeldIndex].hold(previouslyCorrectHeldDie?.props.value)
+  }
 }

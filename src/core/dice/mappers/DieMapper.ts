@@ -16,6 +16,7 @@ export class DieMapper {
       props: {
         value: die.props.value,
         isHeld: die.props.isHeld,
+        isCorrect: die.props.isCorrect,
       },
     }
   }

@@ -5,6 +5,7 @@ export function dieDataBuilder(die = {}): DieViewModel {
   const tempDie = new Die('uuid', {
     value: 2,
     isHeld: false,
+    isCorrect: false,
   })
   const defaultDie = DieMapper.toViewModel(tempDie)
 

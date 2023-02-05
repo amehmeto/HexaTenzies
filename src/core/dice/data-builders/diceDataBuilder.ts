@@ -1,5 +1,4 @@
 import { dieDataBuilder } from './dieDataBuilder'
-import { DieMapper } from '../mappers/DieMapper'
 import { Dice } from '../entities/Dice'
 import { InMemoryIdProvider } from '../../../infrastructure/idProvider/InMemoryIdProvider'
 import { DiceMapper } from '../mappers/DiceMapper'
