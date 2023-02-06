@@ -1,9 +1,8 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { Dice } from '../../entities/Dice'
-import { DiceMapper } from '../../mappers/DiceMapper'
+import { DiceMapper, DiceViewModel } from '../../mappers/DiceMapper'
 import { Dependencies } from '../../../../app/dependencies'
 import { RootState } from '../../../../react-view/main'
-import { DiceViewModel } from '../../diceSlice'
 
 export const initializeDice = createAsyncThunk<
   DiceViewModel,

@@ -4,7 +4,7 @@ import { InMemoryRandomnessProvider } from '../../../../infrastructure/randomNum
 import { InMemoryIdProvider } from '../../../../infrastructure/idProvider/InMemoryIdProvider'
 import { configureStoreWith } from '../../../../app/store'
 import { diceDataBuilder } from '../../data-builders/diceDataBuilder'
-import { DiceViewModel } from '../../diceSlice'
+import { DiceViewModel } from '../../mappers/DiceMapper'
 
 async function triggerInitializeDiceUseCase(
   store: ReduxStore,
@@ -69,5 +69,22 @@ describe('Initialize Dice', () => {
     )
 
     expect(initializedDice.dies).toStrictEqual(expectedDice.dies)
+  })
+
+  it('should initialize dice with -1 attempts by default', async () => {
+    const initializedDice = await triggerInitializeDiceUseCase(store)
+
+    // -1 because the dice is automatically rolled once
+    expect(initializedDice.attempts).toBe(-1)
+  })
+
+
+  it('should initialize dice with given attempts', async () => {
+    const dice = diceDataBuilder({ })
+
+
+    const initializedDice = await triggerInitializeDiceUseCase(store)
+
+    expect(initializedDice.attempts).toBe(-1)
   })
 })

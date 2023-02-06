@@ -78,7 +78,7 @@ describe('Generate Random Dice', () => {
       dieDataBuilder(expectedUnmodifiedProps),
       ...Array(7).fill(dieDataBuilder()),
     ]
-    const dice = new Dice(idProvider, false, heldAndNonHeldDiceMix)
+    const dice = new Dice(idProvider, false, 0, heldAndNonHeldDiceMix)
     const initialDice = DiceMapper.toViewModel(dice)
     await store.dispatch(initializeDice(initialDice))
 
@@ -89,4 +89,14 @@ describe('Generate Random Dice', () => {
       expect(die.props).toStrictEqual(expectedUnmodifiedProps.props)
     })
   })
+
+  it('should increment attempts counter at each roll', async () => {
+    // start at -1 because the dice is automatically rolled once
+
+    await triggerRollDiceUseCase(store)
+    const generatedDice = await triggerRollDiceUseCase(store)
+
+    expect(generatedDice.attempts).toBe(1)
+  })
+
 })

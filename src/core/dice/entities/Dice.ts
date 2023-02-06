@@ -8,6 +8,7 @@ export class Dice {
   constructor(
     private readonly idProvider: IdProvider,
     public isTenzies: boolean = false,
+    public attempts: number = -1,
     dies?: Die[],
   ) {
     this.dies = dies || this.initializeDice()
@@ -18,7 +19,7 @@ export class Dice {
       if (!die.props.isHeld) die.roll(randomnessProvider)
       return die
     })
-
+    this.attempts++
     return this
   }
 

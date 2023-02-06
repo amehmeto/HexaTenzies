@@ -1,13 +1,19 @@
 import { Dice } from '../entities/Dice'
-import { DiceViewModel } from '../diceSlice'
 import { IdProvider } from '../ports/IdProvider'
-import { DieMapper } from './DieMapper'
+import { DieMapper, DieViewModel } from './DieMapper'
+
+export type DiceViewModel = {
+  isTenzies: boolean
+  attempts: number
+  dies: DieViewModel[]
+}
 
 export class DiceMapper {
   static toViewModel(dice: Dice): DiceViewModel {
     const dies = dice.dies.map((die) => DieMapper.toViewModel(die))
     return {
       isTenzies: dice.isTenzies,
+      attempts: dice.attempts,
       dies,
     }
   }
@@ -19,6 +25,6 @@ export class DiceMapper {
     const dies = diceViewModel.dies.map((dieViewModel) =>
       DieMapper.fromViewModel(dieViewModel),
     )
-    return new Dice(idProvider, diceViewModel.isTenzies, dies)
+    return new Dice(idProvider, diceViewModel.isTenzies, diceViewModel.attempts,dies)
   }
 }

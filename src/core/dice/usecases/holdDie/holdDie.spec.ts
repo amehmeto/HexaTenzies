@@ -55,7 +55,7 @@ describe('Hold Die', () => {
 
   it("should mark the die has correct when it's the first to be held", async () => {
     const dies = Array(10).fill(dieDataBuilder())
-    const noHeldDieDice = new Dice(idProvider, false, dies)
+    const noHeldDieDice = new Dice(idProvider, false, 0, dies)
     const diceViewModel = DiceMapper.toViewModel(noHeldDieDice)
 
     await store.dispatch(initializeDice(diceViewModel))
@@ -77,7 +77,7 @@ describe('Hold Die', () => {
         isCorrect: false,
       },
     })
-    const noHeldDieDice = new Dice(idProvider, false, dies)
+    const noHeldDieDice = new Dice(idProvider, false, 0, dies)
     const diceViewModel = DiceMapper.toViewModel(noHeldDieDice)
 
     await store.dispatch(initializeDice(diceViewModel))
@@ -100,7 +100,7 @@ describe('Hold Die', () => {
         isCorrect: false,
       },
     })
-    const noHeldDieDice = new Dice(idProvider, false, dies)
+    const noHeldDieDice = new Dice(idProvider, false, 0, dies)
     const diceViewModel = DiceMapper.toViewModel(noHeldDieDice)
 
     await store.dispatch(initializeDice(diceViewModel))
@@ -122,7 +122,7 @@ describe('Hold Die', () => {
         isCorrect: false,
       },
     })
-    const noHeldDieDice = new Dice(idProvider, false, dies)
+    const noHeldDieDice = new Dice(idProvider, false, 0, dies)
     const diceViewModel = DiceMapper.toViewModel(noHeldDieDice)
 
     await store.dispatch(initializeDice(diceViewModel))

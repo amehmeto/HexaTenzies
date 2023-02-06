@@ -4,14 +4,12 @@ import { holdDie } from './usecases/holdDie/holdDie'
 import { DieViewModel } from './mappers/DieMapper'
 import { initializeDice } from './usecases/initializeDice/initializeDice'
 import { checkTenzies } from './usecases/checkTenzies/checkTenzies'
+import { DiceViewModel } from './mappers/DiceMapper'
 
-export type DiceViewModel = {
-  isTenzies: boolean
-  dies: DieViewModel[]
-}
 
-const initialDice = {
+const initialDice: DiceViewModel = {
   isTenzies: false,
+  attempts: 0,
   dies: [] as DieViewModel[],
 }
 export const initialState = {

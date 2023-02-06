@@ -10,6 +10,7 @@ import { checkTenzies } from './checkTenzies'
 import { DieMapper } from '../../mappers/DieMapper'
 import { Dice } from '../../entities/Dice'
 import { rollDice } from '../rollDice/rollDice'
+import { DiceMapper } from '../../mappers/DiceMapper'
 
 async function triggerCheckTenziesUseCase(store: ReduxStore) {
   await store.dispatch(checkTenzies())
@@ -75,9 +76,9 @@ describe('Check Tenzies Use Case', () => {
     'should not be a Tenzies when one die is non held or dies values are not the same',
     async (dies) => {
       const domainDies = dies.map((die) => DieMapper.fromViewModel(die))
-      const losingDice = new Dice(idProvider, false, domainDies)
+      const losingDice = new Dice(idProvider, false, 0, domainDies)
 
-      await store.dispatch(initializeDice(losingDice))
+      await store.dispatch(initializeDice(DiceMapper.toViewModel(losingDice)))
 
       await store.dispatch(rollDice())
       const isTenzies = await triggerCheckTenziesUseCase(store)

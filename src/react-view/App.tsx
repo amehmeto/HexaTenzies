@@ -9,7 +9,7 @@ import { initializeDice } from '../core/dice/usecases/initializeDice/initializeD
 import Confetti from 'react-confetti'
 import { Instructions } from './Instructions'
 import { checkTenzies } from '../core/dice/usecases/checkTenzies/checkTenzies'
-import { DiceViewModel } from '../core/dice/diceSlice'
+import { DiceViewModel } from '../core/dice/mappers/DiceMapper'
 
 function App() {
   const dispatch = useDispatch<AppDispatch>()
